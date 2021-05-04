@@ -1,10 +1,10 @@
 package Migrations
 
 import (
-	"github.com/yceethetechie/green-bank-backend/Helpers"
 	"github.com/jinzhu/gorm"
-	_"github.com/jinzhu/gorm/dialect/postgres"
-
+	_ "github.com/jinzhu/gorm/dialect/postgres"
+	"github.com/yceethetechie/green-bank-backend/Helpers"
+	"golang.org/x/tools/go/analysis/unitchecker"
 )
 
 type User struct {
@@ -12,4 +12,13 @@ type User struct {
 	Username string
 	Email string
 	password string
+}
+
+
+type Account struct{
+	gorm.Model
+	Type string
+	Name string
+	Balance uint
+	UserID uint
 }
