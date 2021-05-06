@@ -1,12 +1,7 @@
 package main
 
-// func init() {
-// 	// loads values from .env into the system
-// 	// err := godotenv.Load()
-// 	Helpers.HandleError(err)
-
-// }
+import "github.com/yceethetechie/green-bank-backend/Migrations"
 
 func main() {
-
+	Migrations.Migrate()
 }
