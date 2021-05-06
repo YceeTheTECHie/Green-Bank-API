@@ -10,7 +10,7 @@ func HandleError (err error){
 	}
 }
 
-func HashAndPassword(password []byte) string {
+func HashAndSaltPassword(password []byte) string {
 	 hashed,err := bcrypt.GenerateFromPassword(password, bcrypt.MinCost) 
 	 HandleError(err)
 	 return string(hashed)

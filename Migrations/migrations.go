@@ -10,7 +10,7 @@ type User struct {
 	gorm.Model
 	Username string
 	Email    string
-	password string
+	Password string
 }
 
 type Account struct {
@@ -31,12 +31,29 @@ func connectDB() *gorm.DB {
 
 // createAccount
 
-func createAccount(){
+func createAccount() {
 	db := connectDB()
 	users := [2]User{
-		{Username: "Admin", Email:"admin@greenbank.com"},
-		{Username: "Admin2", Email:"admin2@greenbank.com"},
+		{Username: "Admin", Email: "admin@greenbank.com"},
+		{Username: "Admin2", Email: "admin2@greenbank.com"},
 	}
+	for key, _ := range users {
+		//generating passwords
+		generatedPassword := Helpers.HashAndSaltPassword([]byte(users[key].Username))
+		user := User{Username: users[key].Username,Email:users[key].Email,Password: generatedPassword} 
+		db.Create(&user)
+		//account details
+		account := Account{Type:"Basic",Name:string(users[key].Username + "'s" + "account"), Balance: uint(1000 * int(key+1)), UserID: user.ID}
+		db.Create(&account)
+	}
+	//closing db conn
+	defer db.Close()
+}
 
-
+// migrate func
+func Migrate(){
+	db := connectDB()
+	db.AutoMigrate(&User{},&Account{})	
+	defer db.Close()
+	createAccount()
 }
